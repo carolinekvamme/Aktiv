@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="nb" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <link rel="stylesheet" href="css/mal.css">
+    <link rel="stylesheet" href="css/lopnaa.css">
+    <link rel="stylesheet" href="https://use.typekit.net/dim8qkr.css">
+    <script src="https://kit.fontawesome.com/bd2ae2e51f.js" crossorigin="anonymous"></script>
+    <title>Aktiv</title>
+    <!-- The core Firebase JS SDK is always required and must be listed first -->
+    <script src="https://www.gstatic.com/firebasejs/7.13.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/7.13.0/firebase-firestore.js"></script>
+
+
+    <script>
+      // Your web app's Firebase configuration
+      var firebaseConfig = {
+        apiKey: "AIzaSyC52REmA1K5squROmAKgI7QWNNiNuXnArI",
+        authDomain: "lopeshop-b706b.firebaseapp.com",
+        databaseURL: "https://lopeshop-b706b.firebaseio.com",
+        projectId: "lopeshop-b706b",
+        storageBucket: "lopeshop-b706b.appspot.com",
+        messagingSenderId: "609817433771",
+        appId: "1:609817433771:web:2229462a1e3ae0af91c9ee"
+      };
+      // Initialize Firebase
+      firebase.initializeApp(firebaseConfig);
+</script>
+  </head>
+  <body>
+    <header>
+      <div class="skygge"></div>
+      <nav>
+        <div class="query">
+          <a href="index.html"><img id="logo" src="Bilder/logo.png" alt="logo"/></a>
+        </div>
+        <div class="burger" onclick="toggleClass()">
+          <div class="line1"></div>
+          <div class="line1"></div>
+          <div class="line1"></div>
+        </div>
+        <div class="content">
+          <a href="index.html">Hjem</a>
+          <a href="sko.html">Sko</a>
+          <a href="lop.html">Løp</a>
+          <a href="nyheter.html">Nyheter</a>
+        </div>
+        <div class="cart">
+          <a href="handlekurv.html"><i class="fas fa-shopping-cart fa-2x"></i></a>
+        </div>
+      </nav>
+      </nav>
+    </header>
+    <main>
+      <section id="lopNaa">
+
+
+      </section>
+
+    </main>
+    <footer>
+      <div class="info">
+        <a href="kontakt.html">Kontakt oss</a>
+        <a href="https://goo.gl/maps/uTi33nMFA5o36Hxd9">1396 Billingstad</a>
+        <p>Norway</p>
+      </div>
+      <div class="social">
+        <a href="https://www.instagram.com/" target="_blank"><i class="fab fa-instagram fa-2x"></i></a>
+        <a href="https://www.youtube.com/" target="_blank"><i class="fab fa-youtube fa-2x"></i></a>
+        <a href="https://www.twitter.com/" target="_blank"><i class="fab fa-twitter fa-2x"></i></a>
+      </div>
+    </footer>
+    <script type="text/javascript">
+      const lopNaa = document.querySelector("#lopNaa");
+
+      const db = firebase.firestore();
+      const lop = db.collection("Lop");
+
+      const url = new URL(window.location.href);
+      const id = url.searchParams.get("id");
+
+      const visLop = async (id) => {
+        const svar = await lop.doc(id).get();
+          lagHTML(svar.data())
+        }
+
+      visLop(id);
+
+      const lagHTML = (lop) => {
+        lopNaa.innerHTML += `
+          <h1>${lop.Navn}</h1>
+          <img src=${lop.Bilde} alt="Bilde av ${lop.Navn}">
+          <p>${lop.Beskrivelse}km</p>
+          <div id="lopeNaaInfo">
+            <p>Lengde: ${lop.Lengde}m</p>
+            <p>Land: ${lop.Land}</p>
+            <p>Prestasjoner: ${lop.Prestasjoner}</p>
+            <p>Tidspunkt: ${lop.Måned} ${lop.Aar}</p>
+          </div>
+        `;
+        }
+
+
+      //Sortere etter lengde
+      //const visSorterLengde = async () => {
+        //const personer = await randompeople.orderBy("age", "desc").get();
+  //for (const person of personer.docs) {
+  //  console.log(person.data());
+  //  lagHTML(person);
+  //}
+//};
+
+    </script>
+    <script src="mal.js" charset="utf-8"></script>
+  </body>
+</html>

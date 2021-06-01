@@ -1,0 +1,106 @@
+.front, .front2{
+  position: relative;
+}
+.front2 img, .front img{
+  width: 100%;
+}
+.front img{
+  margin-top: 100px;
+}
+.sko{
+  position: absolute;
+  left: 50%;
+  top: 100px;
+  transform: translate(-50%, -50%);
+}
+.kjop{
+  position: absolute;
+  top: 30%;
+  left: 80%;
+}
+.kjop p, .sko p{
+  font-size: 30px;
+}
+.kjop a, .sko a{
+  text-decoration: none;
+  color: black;
+  background-color: #94849B;
+  border-radius: 7px;
+  padding: 15px 32px;
+  text-align: center;
+  display: inline-block;
+  font-size: 20px;
+  margin: 4px 2px;
+  cursor: pointer;
+}
+.frontkontakt{
+  text-align: center;
+  justify-content: center;
+  width: 80%;
+  margin: auto;
+  margin-top: 10%;
+}
+.linkkontakt{
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  width: 80%;
+  margin: auto;
+  margin-top: 5%;
+}
+.linkkontakt a{
+  text-align: center;
+}
+.front3 h1{
+  text-align: center;
+}
+.faamed{
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  grid-gap: 8px;
+  margin: 8px;
+}
+.link{
+  position: relative;
+}
+.link img{
+  width: 100%;
+}
+.linkJS{
+  position: absolute;
+  bottom: 0;
+  z-index: 999;
+  background-color: #ffffff;
+  opacity: 0.6;
+  width: 100%;
+  padding-top: 20px;
+  padding-bottom: 20px;
+}
+.linkJS:hover{
+  background-color: #94849B;
+  opacity: 1;
+}
+.linkJS a{
+  display: block;
+  text-align: center;
+  margin: auto;
+  font-size: 24px;
+  font-weight: bold;
+}
+
+
+@media (max-width: 1200px){
+  .faamed{
+    display: grid;
+    grid-template-columns: 1fr;
+  }
+  .linkJS:hover{
+    background-color: #ffffff;
+    opacity: 0.6;
+  }
+}
+
+@media (max-width: 700px){
+  .kjop{
+    left: 60%;
+  }
+}

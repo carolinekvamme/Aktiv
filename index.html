@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="nb" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/mal.css">
+    <link rel="stylesheet" href="https://use.typekit.net/dim8qkr.css">
+    <script src="https://kit.fontawesome.com/bd2ae2e51f.js" crossorigin="anonymous"></script>
+    <title>Aktiv</title>
+    <!-- The core Firebase JS SDK is always required and must be listed first -->
+    <script src="https://www.gstatic.com/firebasejs/7.13.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/7.13.0/firebase-firestore.js"></script>
+
+
+    <script>
+      // Your web app's Firebase configuration
+      var firebaseConfig = {
+        apiKey: "AIzaSyC52REmA1K5squROmAKgI7QWNNiNuXnArI",
+        authDomain: "lopeshop-b706b.firebaseapp.com",
+        databaseURL: "https://lopeshop-b706b.firebaseio.com",
+        projectId: "lopeshop-b706b",
+        storageBucket: "lopeshop-b706b.appspot.com",
+        messagingSenderId: "609817433771",
+        appId: "1:609817433771:web:2229462a1e3ae0af91c9ee"
+      };
+      // Initialize Firebase
+      firebase.initializeApp(firebaseConfig);
+    </script>
+  </head>
+  <body>
+    <header>
+      <div class="skygge"></div>
+      <nav>
+        <div class="query">
+          <a href="index.html"><img id="logo" src="Bilder/logo.png" alt="logo"/></a>
+        </div>
+        <div class="burger" onclick="toggleClass()">
+          <div class="line1"></div>
+          <div class="line1"></div>
+          <div class="line1"></div>
+        </div>
+        <div class="content">
+          <a class="active" href="index.html">Hjem</a>
+          <a href="sko.html">Sko</a>
+          <a href="lop.html">Løp</a>
+          <a href="nyheter.html">Nyheter</a>
+        </div>
+        <div class="cart">
+          <a href="handlekurv.html"><i class="fas fa-shopping-cart fa-2x"></i></a>
+        </div>
+      </nav>
+    </header>
+    <main>
+      <div class="front">
+        <img src="Bilder/alphafly.jpg" alt="Kjøp sko">
+          <div class="kjop">
+            <p>Nyheter</p>
+            <a href="Nyheter.html">Kjøp nå</a>
+          </div>
+      </div>
+      <div class="front2">
+        <img src="Bilder/kjopnaa.jpg" alt="Nyheter">
+          <div class="sko">
+            <h2>Se skoene nå</h2>
+            <a href="sko.html">Kjøp nå</a>
+          </div>
+      </div>
+      <div class="front3">
+        <h1>Verdt å få med seg</h1>
+        <div class="faamed">
+        </div>
+      </div>
+    </main>
+    <footer>
+      <div class="info">
+        <a href="kontakt.html">Kontakt oss</a>
+        <a href="https://goo.gl/maps/uTi33nMFA5o36Hxd9">1396 Billingstad</a>
+        <p>Norway</p>
+      </div>
+      <div class="social">
+        <a href="https://www.instagram.com/" target="_blank"><i class="fab fa-instagram fa-2x"></i></a>
+        <a href="https://www.youtube.com/" target="_blank"><i class="fab fa-youtube fa-2x"></i></a>
+        <a href="https://www.twitter.com/" target="_blank"><i class="fab fa-twitter fa-2x"></i></a>
+      </div>
+    </footer>
+    <script type="text/javascript">
+      const faamed = document.querySelector(".faamed");
+      const content = document.querySelector("#content");
+      const hambuger = document.querySelector(".icon")
+
+      const db = firebase.firestore();
+      const lop = db.collection("Lop")
+
+      const hentForsideLop = async () => {
+        const svar = await lop.where("Forside", "==", true).get();
+        for(const lope of svar.docs){
+          lagHTML(lope.data(), lope.id);
+        }
+      }
+
+      const lagHTML = (lopData, id) => {
+        faamed.innerHTML += `
+          <div class="link">
+            <img src="${lopData.BildeForside}" alt="${lopData.Navn}">
+            <div class="linkJS">
+              <a href="lopnaa.html?id=${id}">${lopData.Navn}</a>
+            </div>
+          </div>
+        `;
+      }
+      hentForsideLop();
+
+  </script>
+  <script src="mal.js" charset="utf-8"></script>
+  </body>
+</html>

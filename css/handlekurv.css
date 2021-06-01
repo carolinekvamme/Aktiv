@@ -1,0 +1,85 @@
+main{
+  width: 100%;
+  margin: auto;
+  margin-top: 120px;
+}
+h1{
+  text-align: center;
+}
+.handlekurv{
+  display: grid;
+  grid-template-columns: 1fr 0.5fr;
+}
+#secHandlekurv{
+  width: 80%;
+  margin: auto;
+}
+.kjop{
+  display: flex;
+  flex-direction: column;
+  margin-top: 20px;
+}
+.kjop form{
+  margin-top: 15px;
+}
+.handleGrid{
+  display: grid;
+  grid-template-columns: 1fr 0.2fr;
+  margin-left: auto;
+  margin-top: 20px;
+  border-bottom: 1px solid black;
+}
+.handleGrid img{
+  margin: auto;
+  width: 80%;
+  margin-bottom: 20px;
+}
+.handleGrid:first-child{
+  margin-top: 0;
+}
+.handleGrid button{
+  width: 50%;
+  height: 20%;
+  margin: auto;
+  background-color: white;
+  color: black;
+  border-color: black;
+  border-radius: 5px;
+  cursor: pointer;
+}
+.linksko{
+  display: grid;
+  grid-template-columns: 1fr 1fr; 
+}
+.SkoBeskrivelse{
+  text-align: center;
+  margin: auto;
+}
+.SkoBeskrivelse h2{
+  margin-top: 8px;
+}
+
+@media (max-width: 920px) {
+  .handleGrid img{
+    width: 100%;
+  }
+  .SkoBeskrivelse h2{
+    margin-top: 0;
+  }
+}
+@media (max-width: 820px) {
+  .SkoBeskrivelse h2{
+    font-size: 15px;
+  }
+  .handleGrid{
+    grid-gap: 10px;
+  }
+  .handleGrid button{
+    padding: 0;
+  }
+}
+@media (max-width: 550px){
+  .SkoBeskrivelse p{
+    display: none;
+  }
+}

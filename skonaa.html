@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="nb" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <link rel="stylesheet" href="css/skonaa.css">
+    <link rel="stylesheet" href="css/mal.css">
+    <link rel="stylesheet" href="https://use.typekit.net/dim8qkr.css">
+    <script src="https://kit.fontawesome.com/bd2ae2e51f.js" crossorigin="anonymous"></script>
+    <title>Aktiv</title>
+    <!-- The core Firebase JS SDK is always required and must be listed first -->
+    <script src="https://www.gstatic.com/firebasejs/7.13.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/7.13.0/firebase-firestore.js"></script>
+
+
+    <script>
+      // Your web app's Firebase configuration
+      var firebaseConfig = {
+        apiKey: "AIzaSyC52REmA1K5squROmAKgI7QWNNiNuXnArI",
+        authDomain: "lopeshop-b706b.firebaseapp.com",
+        databaseURL: "https://lopeshop-b706b.firebaseio.com",
+        projectId: "lopeshop-b706b",
+        storageBucket: "lopeshop-b706b.appspot.com",
+        messagingSenderId: "609817433771",
+        appId: "1:609817433771:web:2229462a1e3ae0af91c9ee"
+      };
+      // Initialize Firebase
+      firebase.initializeApp(firebaseConfig);
+</script>
+  </head>
+  <body>
+    <header>
+      <div class="skygge"></div>
+      <nav>
+        <div class="query">
+          <a href="index.html"><img id="logo" src="Bilder/logo.png" alt="logo"/></a>
+        </div>
+        <div class="burger" onclick="toggleClass()">
+          <div class="line1"></div>
+          <div class="line1"></div>
+          <div class="line1"></div>
+        </div>
+        <div class="content">
+          <a href="index.html">Hjem</a>
+          <a href="sko.html">Sko</a>
+          <a href="lop.html">Løp</a>
+          <a href="nyheter.html">Nyheter</a>
+        </div>
+        <div class="cart">
+          <a href="handlekurv.html"><i class="fas fa-shopping-cart fa-2x"></i></a>
+        </div>
+      </nav>
+    </header>
+    <main>
+      <section id="skoNaa">
+
+
+      </section>
+    </main>
+    <footer>
+      <div class="info">
+        <a href="kontakt.html">Kontakt oss</a>
+        <a href="https://goo.gl/maps/uTi33nMFA5o36Hxd9">1396 Billingstad</a>
+        <p>Norway</p>
+      </div>
+      <div class="social">
+        <a href="https://www.instagram.com/" target="_blank"><i class="fab fa-instagram fa-2x"></i></a>
+        <a href="https://www.youtube.com/" target="_blank"><i class="fab fa-youtube fa-2x"></i></a>
+        <a href="https://www.twitter.com/" target="_blank"><i class="fab fa-twitter fa-2x"></i></a>
+      </div>
+    </footer>
+    <script type="text/javascript">
+      const skoNaa = document.querySelector("#skoNaa");
+
+      const db = firebase.firestore();
+      const sko = db.collection("Sko");
+      const handlekurv = db.collection("skoIHandlekurv");
+
+      const url = new URL(window.location.href);
+      const id = url.searchParams.get("id");
+
+      const visSko = async (id) => {
+        const svar = await sko.doc(id).get();
+          lagHTML(svar.data())
+        }
+
+      visSko(id);
+
+      const lagHTML = (sko) => {
+        skoNaa.innerHTML += `
+          <h2>${sko.Navn}</h2>
+          <div class="Skoene">
+            <img src=${sko.Bilde} alt="Bilde av ${sko.Navn}">
+            <div class="SkoBeskrivelse">
+              <div class="skoGrid">
+                <h4>Vekt: ${sko.Vekt} gram</h4>
+                <h4>Dropp: ${sko.Dropp} mm</h4>
+                <h4>Løpsfølelse: ${sko.Lopsfolelse} av 6</h4>
+                <h4>Stabilitet: ${sko.Stabilitet} av 6</h4>
+                <h4>Støtdemping: ${sko.Stotdemping} av 6</h4>
+                <h4>Pris: ${sko.Pris}kr</h4>
+              </div>
+              <button onclick="leggIHandlekurv('${id}')">Kjøp</button>
+            </div>
+          </div>
+          <p>${sko.Beskrivelse}km</p>
+        `;
+        }
+
+        const leggIHandlekurv = async (id) => {
+          await handlekurv.add({
+            skoId: id,
+            tid: firebase.firestore.FieldValue.serverTimestamp()
+          });
+          alert("Sko lagt til i handlekurv");
+        }
+
+    </script>
+    <script src="mal.js" charset="utf-8"></script>
+  </body>
+</html>

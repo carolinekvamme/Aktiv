@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="nb" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <link rel="stylesheet" href="css/mal.css">
+    <link rel="stylesheet" href="css/sko.css">
+    <link rel="stylesheet" href="https://use.typekit.net/dim8qkr.css">
+    <script src="https://kit.fontawesome.com/bd2ae2e51f.js" crossorigin="anonymous"></script>
+    <title>Aktiv</title>
+    <!-- The core Firebase JS SDK is always required and must be listed first -->
+    <script src="https://www.gstatic.com/firebasejs/7.13.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/7.13.0/firebase-firestore.js"></script>
+
+
+    <script>
+      // Your web app's Firebase configuration
+      var firebaseConfig = {
+        apiKey: "AIzaSyC52REmA1K5squROmAKgI7QWNNiNuXnArI",
+        authDomain: "lopeshop-b706b.firebaseapp.com",
+        databaseURL: "https://lopeshop-b706b.firebaseio.com",
+        projectId: "lopeshop-b706b",
+        storageBucket: "lopeshop-b706b.appspot.com",
+        messagingSenderId: "609817433771",
+        appId: "1:609817433771:web:2229462a1e3ae0af91c9ee"
+      };
+      // Initialize Firebase
+      firebase.initializeApp(firebaseConfig);
+    </script>
+  </head>
+  <body>
+    <header>
+      <div class="skygge"></div>
+      <nav>
+        <div class="query">
+          <a href="index.html"><img id="logo" src="Bilder/logo.png" alt="logo"/></a>
+        </div>
+        <div class="burger" onclick="toggleClass()">
+          <div class="line1"></div>
+          <div class="line1"></div>
+          <div class="line1"></div>
+        </div>
+        <div class="content">
+          <a href="index.html">Hjem</a>
+          <a class="active" href="sko.html">Sko</a>
+          <a href="lop.html">Løp</a>
+          <a href="nyheter.html">Nyheter</a>
+        </div>
+        <div class="cart">
+          <a href="handlekurv.html"><i class="fas fa-shopping-cart fa-2x"></i></a>
+        </div>
+      </nav>
+      </nav>
+    </header>
+    <main>
+      <select id="selSorter" onchange="sorter()">
+        <option value="desc">Pris lav til høy</option>
+        <option value="asc">Pris høy til lav</option>
+      </select>
+
+      <div class="gridMain">
+        <div class="sort">
+          <div class="typesko">
+            <h3>Type sko</h3>
+            <form id="checkForm" onchange="hentType()">
+              <div>
+                <label for="Treningssko">Treningssko</label>
+                <input class="type" type="checkbox" value="Treningssko" name="Treningssko" checked>
+              </div>
+              <div>
+                <label for="Konkurransesko">Konkurransesko</label>
+                <input class="type" type="checkbox" value="Konkurransesko" name="Konkurransesko" checked>
+              </div>
+              <div>
+                <label for="Piggsko">Piggsko</label>
+                <input class="type" type="checkbox" value="Piggsko" name="Piggsko" checked>
+              </div>
+            </form>
+          </div>
+          <div class="Treningssko">
+            <h3>Merke</h3>
+            <form id="checkForm" onchange="hentMedCheck()">
+              <div>
+                <label for="nike">Nike</label>
+                <input class="merke" type="checkbox" value="Nike" name="nike" checked>
+              </div>
+              <div>
+                <label for="newBalance">New Balance</label>
+                <input class="merke" type="checkbox" value="New Balance" name="newBalance" checked>
+              </div>
+              <div>
+                <label for="hoka">Hoka</label>
+                <input class="merke" type="checkbox" value="Hoka One One" name="hoka" checked>
+              </div>
+            </form>
+          </div>
+          <div class="Dropp">
+            <h3>Dropp</h3>
+            <form id="checkForm" onchange="hentDropp()">
+              <div>
+                <label for="lav">Lav dropp</label>
+                <input class="dropp" id="underSyv" type="checkbox" checked>
+              </div>
+              <div>
+                <label for="hoy">Høy dropp</label>
+                <input class="dropp" id="overSyv" type="checkbox" checked>
+              </div>
+            </form>
+          </div>
+        </div>
+
+        <div id="visSko">
+
+        </div>
+      </div>
+    </main>
+    <footer>
+      <div class="info">
+        <a href="kontakt.html">Kontakt oss</a>
+        <a href="https://goo.gl/maps/uTi33nMFA5o36Hxd9">1396 Billingstad</a>
+        <p>Norway</p>
+      </div>
+      <div class="social">
+        <a href="https://www.instagram.com/" target="_blank"><i class="fab fa-instagram fa-2x"></i></a>
+        <a href="https://www.youtube.com/" target="_blank"><i class="fab fa-youtube fa-2x"></i></a>
+        <a href="https://www.twitter.com/" target="_blank"><i class="fab fa-twitter fa-2x"></i></a>
+      </div>
+    </footer>
+    <script type="text/javascript">
+      const visSko = document.querySelector("#visSko");
+      const selSorter = document.querySelector("#selSorter");
+
+      const db = firebase.firestore();
+      const sko = db.collection("Sko");
+
+      const hentSko = async () => {
+        const svar = await sko.get();
+        for(const skoene of svar.docs){
+          lagHTML(skoene.data(), skoene.id);
+        }
+      }
+
+      const lagHTML = (skoData, id) => {
+        visSko.innerHTML += `
+          <a href="skonaa.html?id=${id}">
+            <div class="blur">
+              <img src="${skoData.Bilde}" alt="${skoData.Navn}">
+              <p>${skoData.Navn}</p>
+            </div>
+          </a>
+        `;
+      }
+      hentSko();
+
+      const sorter = async () => {
+        visSko.innerHTML = ``;
+        const svar = await sko.orderBy("Pris", selSorter.value).get();
+        for(const skoene of svar.docs){
+            lagHTML(skoene.data(), skoene.id);
+        }
+      }
+
+      const hentType = async () => {
+        visSko.innerHTML = ``; // Sletter innholdet i secBoker
+        const checkedBoxes = document.querySelectorAll(".type:checked"); // Henter alle checkbokser som er checked, checkedBoxes blir en nodeList, som er ganske lik en array
+
+        if(checkedBoxes.length == 0){
+          hentSko();
+        }
+        else if(checkedBoxes.length == 3){
+          hentSko();
+        }
+        else{
+          const checked = []; // Oppretter en tom array som skal fylles med checkbokser
+            for(const box of checkedBoxes){ // For-løkke som går gjennom alle checkBoksene
+              checked.push(box.value); // Legger verdien til checkboksene som er valgt i arrayen checked
+            }
+          const svar = await sko.where("Type","in", checked).orderBy("Pris", selSorter.value).get(); // Spør etter bøker hvor sjanger er i listen checked
+            for(const skoene of svar.docs){ // For-løkke som går gjennom alle bøkene i svaret
+              lagHTML(skoene.data(), skoene.id); // Lager html for hver bok
+              }
+          }
+      }
+
+
+      const hentMedCheck = async () => {
+          visSko.innerHTML = ``; // Sletter innholdet i secBoker
+          const checkedBoxes = document.querySelectorAll(".merke:checked"); // Henter alle checkbokser som er checked, checkedBoxes blir en nodeList, som er ganske lik en array
+
+          if(checkedBoxes.length == 0){
+            hentSko();
+          }
+          else if(checkedBoxes.length == 3){
+            hentSko();
+          }
+          else{
+            const checked = []; // Oppretter en tom array som skal fylles med checkbokser
+            for(const box of checkedBoxes){ // For-løkke som går gjennom alle checkBoksene
+              checked.push(box.value); // Legger verdien til checkboksene som er valgt i arrayen checked
+            }
+
+            const svar = await sko.where("Produsent","in", checked).orderBy("Pris", selSorter.value).get(); // Spør etter bøker hvor sjanger er i listen checked
+            for(const skoene of svar.docs){ // For-løkke som går gjennom alle bøkene i svaret
+              lagHTML(skoene.data(), skoene.id); // Lager html for hver bok
+            }
+          }
+        }
+
+        const hentDropp = async () => {
+          visSko.innerHTML = ``; // Sletter innholdet i secBoker
+
+          const checkedBoxes = document.querySelectorAll(".dropp:checked");
+          if(checkedBoxes.length == 0){
+            hentSko();
+          }
+          else if(checkedBoxes.length == 2){
+            hentSko();
+          }
+          else{
+            const underSyv = document.querySelector("#underSyv")
+            visSko.innerHTML = ``;
+            if (underSyv.checked){
+              const skoDropp = await sko.where("Dropp", "<", 7).get();
+              for (const skoene of skoDropp.docs) {
+                lagHTML(skoene.data(), skoene.id);
+              }
+            }
+            else {
+              const skoDropp = await sko.where("Dropp", ">", 7).get();
+              visSko.innerHTML = ``;
+              for (const skoene of skoDropp.docs) {
+                lagHTML(skoene.data(), skoene.id);
+              }
+            }
+          }
+        }
+
+
+  </script>
+  <script src="mal.js" charset="utf-8"></script>
+
+  </body>
+</html>

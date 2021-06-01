@@ -1,0 +1,75 @@
+h2{
+  margin-top: 8%;
+  text-align: center;
+}
+.Skoene{
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  width: 70%;
+  margin: auto;
+}
+.Skoene img{
+  width: 100%;
+}
+.Skoene img{
+  margin: auto;
+}
+.skoGrid{
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  width: 100%;
+  text-align: center;
+  margin-top: 50px;
+}
+.skoGrid h4{
+  margin: 5px;
+  width: 100%;
+}
+
+#skoNaa p{
+  width: 70%;
+  margin: auto;
+  margin-top: 50px;
+  text-align: justify;
+}
+#skoNaa button{
+  width: 50%;
+  border-color: lightblue;
+  border-radius: 5px;
+  margin-top: 4%;
+  margin-left: 30%;
+  cursor: pointer;
+}
+@media (max-width: 1200px){
+  .skoGrid{
+    margin-top: 30px; 
+  }
+}
+@media (max-width: 800px){
+  .Skoene{
+    width: 80%;
+    margin: auto;
+  }
+  #skoNaa p{
+    width: 80%;
+  }
+}
+
+@media (max-width: 700px){
+  .Skoene{
+    display: grid;
+    grid-template-columns: 1fr;
+    width: 100%;
+  }
+  .skoGrid{
+    margin-top: 20px;
+  }
+  #skoNaa p{
+    margin-top: 20px;
+  }
+  #skoNaa button{
+    display: block;
+    justify-content: center;
+    width: 40%;
+  }
+}

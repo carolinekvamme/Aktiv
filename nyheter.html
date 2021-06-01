@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="nb" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <link rel="stylesheet" href="css/mal.css">
+    <link rel="stylesheet" href="css/nyheter.css">
+    <link rel="stylesheet" href="https://use.typekit.net/dim8qkr.css">
+    <script src="https://kit.fontawesome.com/bd2ae2e51f.js" crossorigin="anonymous"></script>
+    <title>Aktiv</title>
+    <!-- The core Firebase JS SDK is always required and must be listed first -->
+    <script src="https://www.gstatic.com/firebasejs/7.13.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/7.13.0/firebase-firestore.js"></script>
+
+
+    <script>
+      // Your web app's Firebase configuration
+      var firebaseConfig = {
+        apiKey: "AIzaSyC52REmA1K5squROmAKgI7QWNNiNuXnArI",
+        authDomain: "lopeshop-b706b.firebaseapp.com",
+        databaseURL: "https://lopeshop-b706b.firebaseio.com",
+        projectId: "lopeshop-b706b",
+        storageBucket: "lopeshop-b706b.appspot.com",
+        messagingSenderId: "609817433771",
+        appId: "1:609817433771:web:2229462a1e3ae0af91c9ee"
+      };
+      // Initialize Firebase
+      firebase.initializeApp(firebaseConfig);
+    </script>
+  </head>
+  <body>
+    <header>
+      <div class="skygge"></div>
+      <nav>
+        <div class="query">
+          <a href="index.html"><img id="logo" src="Bilder/logo.png" alt="logo"/></a>
+        </div>
+        <div class="burger" onclick="toggleClass()">
+          <div class="line1"></div>
+          <div class="line1"></div>
+          <div class="line1"></div>
+        </div>
+        <div class="content">
+          <a  href="index.html">Hjem</a>
+          <a href="sko.html">Sko</a>
+          <a href="lop.html">Løp</a>
+          <a class="active" href="nyheter.html">Nyheter</a>
+        </div>
+        <div class="cart">
+          <a href="handlekurv.html"><i class="fas fa-shopping-cart fa-2x"></i></a>
+        </div>
+      </nav>
+      </nav>
+    </header>
+    <main>
+      <div id="visNyheter">
+
+      </div>
+    </main>
+    <footer>
+      <div class="info">
+        <a href="kontakt.html">Kontakt oss</a>
+        <a href="https://goo.gl/maps/uTi33nMFA5o36Hxd9">1396 Billingstad</a>
+        <p>Norway</p>
+      </div>
+      <div class="social">
+        <a href="https://www.instagram.com/" target="_blank"><i class="fab fa-instagram fa-2x"></i></a>
+        <a href="https://www.youtube.com/" target="_blank"><i class="fab fa-youtube fa-2x"></i></a>
+        <a href="https://www.twitter.com/" target="_blank"><i class="fab fa-twitter fa-2x"></i></a>
+      </div>
+    </footer>
+    <script type="text/javascript">
+      const nyhetene = document.querySelector("#visNyheter");
+
+      const db = firebase.firestore();
+      const sko = db.collection("Sko");
+
+      const hentNyheter = async () => {
+        const svar = await sko.where("Nyhet", "==", true).get();
+        for(const skoene of svar.docs){
+          lagHTML(skoene.data(), skoene.id);
+        }
+      }
+
+      const lagHTML = (skoData, id) => {
+        nyhetene.innerHTML += `
+          <a href="skonaa.html?id=${id}">
+            <div class="blur">
+              <img src="${skoData.Bilde}" alt="${skoData.Navn}">
+              <p>${skoData.Navn}</p>
+            </div>
+          </a>
+        `;
+      }
+      hentNyheter();
+
+
+  </script>
+  <script src="mal.js" charset="utf-8"></script>
+
+  </body>
+</html>

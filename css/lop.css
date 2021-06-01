@@ -1,0 +1,58 @@
+main{
+  width: 80%;
+  margin: auto;
+  margin-top: 120px;
+  min-height: 80vh;
+}
+#visLopene{
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-gap: 50px;
+  margin-top: 10px;
+}
+.blur img{
+  width: 100%;
+}
+.blur{
+  position: relative;
+}
+.blur img:hover{
+  filter: blur(5px);
+}
+
+.blur p{
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  text-align: center;
+  color: white;
+  font-size: 20px;
+  opacity: 0;
+}
+
+.blur:hover p{
+  opacity: 1;
+  transition: 1s;
+}
+
+@media (max-width: 700px){
+  main{
+    margin-top: 110px;
+  }
+  #visLopene{
+    display: grid;
+    grid-template-columns: 1fr;
+  }
+  .blur img:hover{
+    filter: blur(0);
+  }
+  .blur:hover p{
+    opacity: 1;
+    transition: 0s;
+  }
+
+  .blur p{
+    opacity: 1;
+  }
+}
