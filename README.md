@@ -1,2 +1,2 @@
 # Skoleprosjekt
-https://carolinekvamme.github.io/aktiv
+https://carolinekvamme.github.io/Aktiv
